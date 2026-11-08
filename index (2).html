@@ -1,0 +1,579 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>AC Service Ajman</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Anton&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+<style>
+:root{--red:#f2321d;--ink:#161616;--grey:#f6f6f6;--muted:#6b6b6b;--line:#e6e6e6;--r:12px}
+*{box-sizing:border-box;margin:0}
+html{scroll-behavior:smooth}
+body{font-family:Inter,sans-serif;color:var(--ink);line-height:1.5;background:#fff}
+a{color:inherit;text-decoration:none}
+.wrap{width:min(1120px,92%);margin-inline:auto}
+h1,h2,h3,.num{font-family:Anton,sans-serif;font-weight:400;text-transform:uppercase;line-height:1.05}
+h2{font-size:clamp(1.9rem,4vw,2.9rem);max-width:16ch;margin:14px 0 26px}
+:focus-visible{outline:2px solid var(--red);outline-offset:3px}
+
+.ph img{width:100%;height:100%;object-fit:cover;display:block;border-radius:inherit}
+.ph.has-img{padding:0;overflow:hidden}
+.hero.has-img{background:linear-gradient(90deg,rgba(10,10,10,.9),rgba(10,10,10,.4)),var(--hero) center/cover}
+.minh300{min-height:300px}
+.proj{display:block;background:#fff;border:1px solid var(--line);border-radius:var(--r);padding:10px 10px 18px}
+.proj .ph{min-height:190px}
+.proj h3{font-size:1.05rem;margin:14px 6px 4px}
+.proj p{font-size:.8rem;color:var(--muted);margin:0 6px}
+form.contact{display:grid;gap:12px}
+form.contact label{font-size:.82rem;font-weight:500}
+form.contact input,form.contact textarea{width:100%;padding:12px;border:1px solid var(--line);border-radius:8px;font:inherit}
+.msg{color:var(--red);font-size:.85rem;min-height:1.3em}
+.cgrid{display:grid;grid-template-columns:1.4fr 1fr;gap:40px}
+.box{background:#fff;border:1px solid var(--line);border-radius:var(--r);padding:22px;font-size:.9rem}
+.proj ul{margin:10px 6px 14px;padding-left:18px;font-size:.82rem;color:var(--muted)}
+.proj a.more{margin:0 6px;font-size:.8rem;font-weight:500;color:var(--red)}
+.brands{display:flex;flex-wrap:wrap;gap:10px;margin-top:8px}
+.bchip{background:#fff;border:1px solid var(--line);border-radius:8px;padding:10px 18px;font-weight:600;font-size:.9rem}
+.faq details{background:#fff;border:1px solid var(--line);border-radius:var(--r);padding:16px 20px;margin-bottom:10px}
+.faq summary{cursor:pointer;font-weight:600;font-size:.95rem}
+.faq details[open]{border-left:4px solid var(--red)}
+.faq details p{margin-top:10px;color:var(--muted);font-size:.88rem;max-width:70ch}
+.cgrid{align-items:start}
+.cgrid h2{max-width:none}
+form.contact .two{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+form.contact .btn{justify-self:start}
+form.contact input:focus,form.contact textarea:focus{outline:2px solid var(--red);border-color:var(--red)}
+.box h3{font-size:1.2rem;margin-bottom:16px}
+.info{list-style:none;padding:0;margin:0 0 22px;display:grid;gap:14px}
+.info small{display:block;color:var(--muted);font-size:.72rem}
+.actions{display:flex;gap:10px;flex-wrap:wrap}
+.btn{position:relative;overflow:hidden;will-change:transform}
+.btn .sweep{position:absolute;inset:0;background:rgba(255,255,255,.2);pointer-events:none}
+.progress{position:fixed;top:0;left:0;height:3px;width:100%;background:var(--red);transform:scaleX(0);transform-origin:0 50%;z-index:50}
+.nav.scrolled{box-shadow:0 6px 24px rgba(0,0,0,.08)}
+/* Hamburger button: 44px touch target, three bars that morph into an X when aria-expanded="true" */
+.menu-btn{display:none;position:relative;width:44px;height:44px;background:none;border:1px solid var(--line);border-radius:10px;cursor:pointer;padding:0}
+.menu-btn__bar{position:absolute;left:12px;right:12px;height:2px;background:var(--ink);border-radius:2px;transition:transform .3s,opacity .2s}
+.menu-btn__bar:nth-child(1){top:14px}.menu-btn__bar:nth-child(2){top:21px}.menu-btn__bar:nth-child(3){top:28px}
+.menu-btn[aria-expanded="true"] .menu-btn__bar:nth-child(1){transform:translateY(7px) rotate(45deg)}
+.menu-btn[aria-expanded="true"] .menu-btn__bar:nth-child(2){opacity:0}
+.menu-btn[aria-expanded="true"] .menu-btn__bar:nth-child(3){transform:translateY(-7px) rotate(-45deg)}
+.faq details p{overflow:hidden}
+section[id]{scroll-margin-top:70px}
+/* nav */
+.nav{position:sticky;top:0;z-index:20;background:#fff}
+.nav .wrap{display:flex;align-items:center;justify-content:space-between;padding:14px 0}
+.logo{display:flex;align-items:center;gap:8px;font-weight:600;font-size:1.15rem}
+.logo i{width:26px;height:26px;background:var(--red);border-radius:7px;display:block}
+.links{display:flex;gap:26px;font-size:.82rem}
+.links a{position:relative;padding:6px 0}
+.links a:not(.btn)::after{content:"";position:absolute;left:0;right:0;bottom:0;height:2px;background:var(--red);transform:scaleX(0);transform-origin:0 50%;transition:transform .25s}
+.links a:not(.btn):hover,.links a.is-active{color:var(--red)}
+.links a:not(.btn):hover::after,.links a.is-active::after{transform:scaleX(1)}
+.links .links__cta{display:none} /* hidden on desktop; shown inside the mobile menu */
+.nav__end{display:flex;align-items:center;gap:10px}
+.nav .wrap{gap:16px}
+.logo{white-space:nowrap;min-width:0}
+.logo span{overflow:hidden;text-overflow:ellipsis}
+.btn{white-space:nowrap}
+.skip{position:absolute;left:12px;top:-60px;background:var(--ink);color:#fff;padding:10px 16px;border-radius:8px;z-index:60;font-size:.85rem}
+.skip:focus{top:12px}
+body{overflow-x:clip}
+img{max-width:100%}
+.btn{display:inline-flex;align-items:center;gap:8px;padding:10px 16px;border-radius:8px;font-size:.82rem;font-weight:500;color:#fff;border:0;cursor:pointer}
+.btn.red{background:var(--red)}.btn.dark{background:var(--ink)}
+.btn b{display:grid;place-items:center;width:16px;height:16px;border-radius:50%;background:#fff;color:var(--ink);font-size:.6rem}
+.pill{display:inline-block;border:1px solid var(--red);color:var(--red);border-radius:99px;padding:4px 14px;font-size:.74rem}
+.rule{border-left:2px solid var(--line);padding-left:14px;color:var(--muted);font-size:.9rem;max-width:44ch}
+
+/* hero */
+.hero{position:relative;color:#fff;padding:130px 0 150px;margin:0 clamp(0px,2vw,24px);border-radius:0 0 48px 0;
+ background:radial-gradient(60% 80% at 85% 30%,rgba(242,50,29,.28),transparent 70%),linear-gradient(90deg,rgba(10,10,10,.92),rgba(10,10,10,.45)),linear-gradient(135deg,#555,#2a2a2a)}
+.hero small.eb{display:block;font-size:.74rem;margin-bottom:14px}
+.hero h1{font-size:clamp(2.6rem,5.6vw,4.4rem);max-width:18ch;margin-bottom:22px}
+.hero h1 em{font-style:normal;color:var(--red);display:block}
+.hero .rule{color:#ddd;border-color:#fff;margin-bottom:26px}
+.hero .ph-note{position:absolute;right:6%;top:24px;font-size:.72rem;opacity:.5}
+.call{position:absolute;right:4%;bottom:-26px;background:var(--red);padding:14px 20px;border-radius:12px;display:grid;font-size:.9rem}
+.call small{font-size:.68rem;opacity:.85}
+.intro{display:flex;align-items:center;gap:12px;margin-top:40px;font-size:1rem;background:none;border:0;color:#fff;cursor:pointer}
+.intro span{width:44px;height:44px;border-radius:50%;background:#fff;color:var(--ink);display:grid;place-items:center}
+
+section.s{padding:96px 0}
+.alt{background:var(--grey)}
+.ph{background:linear-gradient(135deg,#e9e9e9,#d9d9d9);border-radius:var(--r);display:grid;place-items:center;color:#8a8a8a;font-size:.78rem;min-height:200px}
+
+/* about */
+.about-top{display:grid;grid-template-columns:1fr 1.7fr;gap:32px;align-items:start}
+.about-top h2{max-width:22ch;margin:0}
+.about-grid{display:grid;grid-template-columns:1fr 1fr;gap:36px;margin-top:40px}
+.about-grid .ph{min-height:400px;border-top-left-radius:36px}
+.stats{background:var(--grey);border-radius:var(--r);padding:26px;display:grid;grid-template-columns:1fr 1fr;gap:22px 30px;margin-top:22px}
+.num{font-size:3.1rem;color:var(--red)}
+.stat span{display:block;font-size:.78rem;color:var(--muted)}
+.rating{align-self:center;font-size:.8rem;color:var(--muted)}
+.rating b{font-size:1.4rem;color:var(--ink)}.rating i{color:var(--red);font-style:normal}
+
+/* services */
+.head{display:flex;justify-content:space-between;align-items:end;gap:30px;margin-bottom:34px}
+.head h2{margin-bottom:0}.head .rule{margin-bottom:6px}
+.cards{display:grid;grid-template-columns:repeat(4,1fr);gap:16px}
+.card{background:#fff;border:1px solid var(--line);border-radius:var(--r);padding:10px 10px 18px;border-bottom:4px solid transparent;transition:border-color .2s}
+.card:hover,.card:focus-within{border-bottom-color:var(--red)}
+.card .ph{min-height:150px;position:relative}
+.chip{position:absolute;left:10px;bottom:-12px;width:30px;height:30px;border-radius:8px;background:#fff;border:1px solid var(--line);display:grid;place-items:center;color:var(--ink);font-size:.8rem}
+.card h3{font-size:1rem;margin:24px 6px 6px}
+.card p{font-size:.78rem;color:var(--muted);margin:0 6px 14px}
+.card a{font-size:.78rem;margin-left:6px;font-weight:500}
+.center{text-align:center;margin-top:34px}
+
+/* why */
+.why{display:grid;grid-template-columns:1fr 1.5fr;gap:34px}
+.why-imgs{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.why-imgs .ph:first-child{grid-column:1;grid-row:1/3;min-height:330px}
+.why-imgs .ph:nth-child(n+2){min-height:160px}
+.why-right .rule{margin:20px 0 22px}
+.row{display:flex;gap:40px;flex-wrap:wrap;margin-bottom:26px}
+
+/* features */
+.feat{display:grid;grid-template-columns:1fr 1.3fr;gap:50px}
+.fl{background:#fff;border:1px solid var(--line);border-radius:var(--r);padding:20px;margin-bottom:12px;display:flex;gap:16px}
+.fl:first-child{border-left:4px solid var(--red)}
+.fl i{flex:none;width:36px;height:36px;border:1px solid var(--line);border-radius:8px;display:grid;place-items:center;font-style:normal;color:var(--red)}
+.fl h3{font-size:1.02rem;margin-bottom:4px}
+.fl p{font-size:.82rem;color:var(--muted)}
+
+footer{padding:34px 0;font-size:.82rem;color:var(--muted)}
+footer .wrap{display:flex;justify-content:space-between;flex-wrap:wrap;gap:10px}
+
+@media(max-width:900px){
+ .cgrid{grid-template-columns:1fr}
+ /* Header on tablet/phone: hamburger replaces inline links; the CTA moves into the menu panel */
+ .menu-btn{display:block}
+ .nav__cta{display:none}
+ .links{display:none;position:absolute;top:100%;left:0;right:0;background:#fff;flex-direction:column;gap:0;padding:8px 4% 18px;box-shadow:0 12px 24px rgba(0,0,0,.08);max-height:calc(100vh - 70px);overflow-y:auto}
+ .links.open{display:flex}
+ .links a:not(.btn){padding:14px 0;border-bottom:1px solid var(--line)}
+ .links a:not(.btn)::after{display:none}
+ .links .links__cta{display:inline-flex;justify-content:center;margin-top:16px;color:#fff}
+ .cards{grid-template-columns:repeat(2,1fr)}
+ .about-top,.about-grid,.why,.feat{grid-template-columns:1fr}
+ .head{flex-direction:column;align-items:start}
+}
+@media(max-width:520px){
+ form.contact .two{grid-template-columns:1fr}
+ .cards{grid-template-columns:1fr}
+ .logo{font-size:1rem}
+ .hero{padding:64px 0 120px}
+ .hero h1{font-size:clamp(2.1rem,10.5vw,3rem);max-width:none}
+ .call{left:4%;right:4%;text-align:center}
+ section.s{padding:64px 0}
+ .num{font-size:2.6rem}
+}
+@media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}*{transition:none!important}}
+</style>
+</head>
+<body>
+<div class="progress" aria-hidden="true"></div>
+
+<a class="skip" href="#main">Skip to content</a>
+<!-- HEADER: logo | primary nav | CTA + hamburger. On small screens the nav becomes a dropdown panel. -->
+<header class="nav"><div class="wrap">
+  <a href="#" class="logo" aria-label="AC Service Ajman, home"><i aria-hidden="true"></i><span data-t="brand"></span></a>
+  <nav class="links" id="links" aria-label="Primary">
+    <a href="#">Home</a><a href="#about">About us</a><a href="#services">Services</a><a href="#why">Why us</a><a href="#areas">Areas</a><a href="#faq">FAQ</a><a href="#contactSec">Contact</a>
+    <a href="#contactSec" class="btn red links__cta">Contact us <b aria-hidden="true">›</b></a>
+  </nav>
+  <div class="nav__end">
+    <a href="#contactSec" class="btn red nav__cta">Contact us <b aria-hidden="true">›</b></a>
+    <button class="menu-btn" type="button" aria-expanded="false" aria-controls="links" aria-label="Open menu">
+      <span class="menu-btn__bar"></span><span class="menu-btn__bar"></span><span class="menu-btn__bar"></span>
+    </button>
+  </div>
+</div></header>
+
+<main id="main" tabindex="-1">
+<section class="hero">
+  <div class="wrap">
+    <small class="eb">Let's get to work</small>
+    <h1><span data-t="hero.title"></span><em data-t="hero.accent"></em></h1>
+    <p class="rule" data-t="hero.text"></p>
+    <a href="#contactSec" class="btn red">Get started now <b>›</b></a>
+    <div><a class="intro" id="heroCall" href="#"><span>&#9742;</span><strong data-t="phone"></strong></a></div>
+  </div>
+  
+  <a class="call" id="call" href="#"><small>Call any time</small><strong data-t="phone"></strong></a>
+</section>
+
+<section id="about" class="s"><div class="wrap">
+  <div class="about-top">
+    <span class="pill">About us</span>
+    <h2 data-t="about.title"></h2>
+  </div>
+  <div class="about-grid">
+    <div class="ph" data-img="images.about"></div>
+    <div>
+      <p class="rule" data-t="about.text"></p>
+      <div class="stats" id="aboutStats"></div>
+      <div style="margin-top:22px"><a href="#services" class="btn red">Explore services <b>›</b></a></div>
+    </div>
+  </div>
+</div></section>
+
+<section id="services" class="s alt"><div class="wrap">
+  <div class="head">
+    <div><span class="pill">Our services</span><h2 data-t="servicesTitle"></h2></div>
+    <p class="rule" data-t="servicesText"></p>
+  </div>
+  <div class="cards" id="cards"></div>
+  <div class="center"><a href="#contactSec" class="btn dark">Get a free quote <b>›</b></a></div>
+  <div style="margin-top:50px"><span class="pill">Brands we service</span><div class="brands" id="brands"></div></div>
+</div></section>
+
+<section id="why" class="s"><div class="wrap why">
+  <div>
+    <span class="pill">Why choose us</span>
+    <h2 data-t="why.title"></h2>
+    <div class="ph minh300" data-img="images.why1"></div>
+  </div>
+  <div class="why-right">
+    <div class="why-imgs"><div class="ph" data-img="images.why2"></div><div class="ph" data-img="images.why3"></div></div>
+    <p class="rule" data-t="why.text"></p>
+    <div class="row" id="whyStats"></div>
+    <a href="#areas" class="btn dark">See service areas <b>›</b></a>
+  </div>
+</div></section>
+
+<section id="features" class="s alt"><div class="wrap feat">
+  <div>
+    <span class="pill">Our features</span>
+    <h2 data-t="featuresTitle"></h2>
+    <p class="rule" data-t="featuresText" style="margin-bottom:24px"></p>
+    <a href="#contactSec" class="btn dark">Contact us <b>›</b></a>
+  </div>
+  <div id="featList"></div>
+</div></section>
+<section id="areas" class="s"><div class="wrap">
+  <span class="pill">Service areas</span>
+  <h2 data-t="areasTitle"></h2>
+  <div class="cards" id="areaCards"></div>
+</div></section>
+
+<section id="faq" class="s faq"><div class="wrap">
+  <span class="pill">FAQ</span>
+  <h2>Frequently asked questions</h2>
+  <div id="faqList"></div>
+</div></section>
+
+<section id="contactSec" class="s alt"><div class="wrap cgrid">
+  <div>
+    <span class="pill">Contact us</span>
+    <h2 data-t="contactTitle"></h2>
+    <!-- Form posts to DATA.formEndpoint if set; otherwise it opens WhatsApp with the message -->
+    <form class="contact" id="form" method="post" novalidate>
+      <div class="two">
+        <div><label for="n">Name</label><input id="n" name="name" required autocomplete="name" placeholder="Your name"></div>
+        <div><label for="e">Email</label><input id="e" name="email" type="email" required autocomplete="email" placeholder="you@example.com"></div>
+      </div>
+      <div><label for="m">How can we help?</label><textarea id="m" name="message" rows="4" required placeholder="Tell us about the AC problem and your area"></textarea></div>
+      <p class="msg" id="msg" role="alert"></p>
+      <button class="btn red" type="submit">Send message <b>›</b></button>
+    </form>
+  </div>
+  <aside class="box">
+    <h3>Get in touch</h3>
+    <ul class="info">
+      <li><small>Phone</small><a id="phoneLink" href="#" data-t="phone"></a></li>
+      <li><small>Email</small><span data-t="email"></span></li>
+      <li><small>Address</small><span data-t="address"></span></li>
+      <li><small>Hours</small><span data-t="hours"></span></li>
+    </ul>
+    <div class="actions">
+      <a class="btn red" id="callBtn" href="#">Call now <b>›</b></a>
+      <a class="btn dark" id="waBtn" href="#" target="_blank" rel="noopener noreferrer">WhatsApp <b>›</b></a>
+    </div>
+  </aside>
+</div></section>
+</main>
+
+<footer id="contact"><div class="wrap">
+  <span>© <span data-t="brand"></span>. All rights reserved.</span>
+  <span data-t="address"></span>
+</div></footer>
+
+<script>
+/* ===== EDIT THIS OBJECT: replace every [PLACEHOLDER] with your client's own content ===== */
+const DATA = {
+  brand: "AC Service Ajman",
+  phone: "+971 55 526 9352",
+  email: "Support@acserviceajman.com",
+  address: "Al Muwaihat 2, Ajman, UAE",
+  hours: "Open 24/7. Same-day service.",
+  formEndpoint: "[FORM_ENDPOINT]", // optional: Formspree/Netlify URL. If left as is, the form opens WhatsApp instead.
+  whatsapp: "971555269352",
+  /* IMAGES: paste a link to an image you have permission to use (a local file like "images/a.jpg" is safest).
+     Leave the [PLACEHOLDER] to show a labelled grey box. */
+  images: {
+    hero: "[HERO_IMAGE_URL]", about: "[ABOUT_IMAGE_URL]",
+    why1: "[WHY_IMAGE_URL_1]", why2: "[WHY_IMAGE_URL_2]", why3: "[WHY_IMAGE_URL_3]"
+  },
+  hero: {
+    title: "Fast AC repair & expert maintenance",
+    accent: "across Dubai & the UAE",
+    text: "Skilled technicians for AC repair, installation, cleaning and maintenance in homes and offices. Same-day service and clear pricing."
+  },
+  about: {
+    title: "Dependable cooling and lasting comfort for homes and businesses",
+    text: "With 20 years in the trade, our team handles split, ducted, cassette, central and chiller systems. We repair, install, clean and maintain them with proper tools, quality spares and on-time work.",
+    stats: [
+      { num: "20+", label: "Years of experience" },
+      { num: "24/7", label: "Support, every day" },
+      { num: "4", label: "Emirates covered" },
+      { num: "11+", label: "AC brands serviced" }
+    ]
+  },
+  servicesTitle: "Complete AC services for total comfort",
+  servicesText: "From a quick gas refill to full duct installation, we keep your cooling running efficiently through the whole UAE summer.",
+  services: [
+    { title: "AC Repair", text: "Fast diagnosis and repair for split, cassette, window and ducted units.", image: "[IMAGE_URL]" },
+    { title: "AC Maintenance", text: "Filter, coil and drain checks that cut breakdowns and energy bills.", image: "[IMAGE_URL]" },
+    { title: "AC Cleaning", text: "Indoor and outdoor unit deep cleaning for stronger, cleaner airflow.", image: "[IMAGE_URL]" },
+    { title: "Duct Cleaning", text: "Removes dust, mold and debris from ducts to improve air quality.", image: "[IMAGE_URL]" },
+    { title: "AC Installation", text: "Neat, correct installation of new split and ducted systems.", image: "[IMAGE_URL]" },
+    { title: "AC Gas Filling", text: "Leak check and refrigerant top-up so cooling comes back at full strength.", image: "[IMAGE_URL]" },
+    { title: "Central AC Maintenance", text: "Scheduled servicing for villas, offices and buildings with central cooling.", image: "[IMAGE_URL]" },
+    { title: "Chiller AC Service", text: "Servicing and repair for commercial chiller and large-capacity systems.", image: "[IMAGE_URL]" }
+  ],
+  brands: ["Carrier", "Daikin", "General", "Gree", "Hisense", "Lennox", "LG", "MDV", "Midea", "Mitsubishi", "Nikai"],
+  why: {
+    title: "Trusted experts in cooling and comfort",
+    text: "Certified technicians, honest quotes and responsive support mean your AC problem is fixed properly, the first time.",
+    stats: [
+      { num: "Same-day", label: "Service available" },
+      { num: "24/7", label: "Customer support" },
+      { num: "20+", label: "Years in HVAC" }
+    ]
+  },
+  featuresTitle: "The features that set our service apart",
+  featuresText: "Reliable work, fair prices and spare parts you can trust, for every home and business.",
+  features: [
+    { title: "Transparent pricing", text: "You get a clear quote up front. No hidden charges or surprises.", icon: "✓" },
+    { title: "Quality spares with warranty", text: "Quality AC spares and warranty on products and workmanship.", icon: "⚙" },
+    { title: "Free quote and advice", text: "Describe the problem and our experts will guide you to the right fix.", icon: "☰" }
+  ],
+  areasTitle: "AC services across Dubai, Sharjah, Ajman and Abu Dhabi",
+  areas: [ { title: "Dubai" }, { title: "Sharjah" }, { title: "Ajman" }, { title: "Abu Dhabi" } ],
+  areaServices: ["AC cleaning", "Duct cleaning", "AC maintenance", "AC installation", "AC gas filling", "AC repair"],
+  faqs: [
+    { q: "How do I know if my AC needs repair?", a: "Weak airflow, strange noises, water leaks, bad smells or warm air instead of cold are the usual signs." },
+    { q: "How long does an AC repair take?", a: "Most minor repairs take one to two hours. Bigger faults may need extra time if parts must be ordered." },
+    { q: "How often should I service my AC?", a: "At least once a year, ideally before summer starts. Heavily used units benefit from more frequent checks." },
+    { q: "What does AC maintenance include?", a: "Filter cleaning or replacement, coil and condenser cleaning, refrigerant level check, electrical inspection and a performance test." },
+    { q: "How long does installation take?", a: "A standard split AC takes about three to six hours. Central or ducted systems can take one to two days." },
+    { q: "Why is duct cleaning important?", a: "It removes dust, allergens, mold and debris that hurt air quality and make the system work harder. Every two to three years is typical." },
+    { q: "Repair or replace my AC?", a: "If the unit is over 10 to 15 years old and keeps breaking down, replacement is often the cheaper option long term." }
+  ],
+  contactTitle: "Request a free quote",
+  ANIMATE: true // set to false to turn GSAP animations off
+};
+/* ======================================================================================= */
+
+const esc = s => String(s ?? "").replace(/[&<>"']/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+const get = (o, p) => p.split(".").reduce((a, k) => a?.[k], o);
+const ok = u => u && !String(u).includes("[");
+const slot = (u, alt = "") => ok(u)
+  ? `<div class="ph has-img"><img src="${esc(u)}" alt="${esc(alt)}" loading="lazy"></div>`
+  : `<div class="ph">[IMAGE${alt ? ": " + esc(alt) : ""}]</div>`;
+const stat = s => `<div class="stat"><div class="num">${esc(s.num)}</div><span>${esc(s.label)}</span></div>`;
+
+document.querySelectorAll("[data-t]").forEach(el => el.textContent = get(DATA, el.dataset.t) ?? "");
+document.getElementById("call").href = document.getElementById("heroCall").href = "tel:" + DATA.phone.replace(/[^\d+]/g, "");
+
+document.getElementById("aboutStats").innerHTML = DATA.about.stats.map(stat).join("");
+
+document.getElementById("whyStats").innerHTML = DATA.why.stats.map(stat).join("");
+
+document.getElementById("cards").innerHTML = DATA.services.map(s => `
+  <article class="card">
+    ${slot(s.image, s.title)}
+    <h3>${esc(s.title)}</h3><p>${esc(s.text)}</p><a href="#contact">Read more ›</a>
+  </article>`).join("");
+
+document.getElementById("areaCards").innerHTML = DATA.areas.map(a => `
+  <article class="proj"><h3>${esc(a.title)}</h3>
+    <ul>${DATA.areaServices.map(x => `<li>${esc(x)} ${esc(a.title)}</li>`).join("")}</ul>
+    <a class="more" href="tel:${DATA.phone.replace(/[^\d+]/g, "")}">Call to book</a></article>`).join("");
+
+document.getElementById("brands").innerHTML = DATA.brands.map(b => `<span class="bchip">${esc(b)}</span>`).join("");
+document.getElementById("faqList").innerHTML = DATA.faqs.map(f => `<details><summary>${esc(f.q)}</summary><p>${esc(f.a)}</p></details>`).join("");
+
+document.getElementById("featList").innerHTML = DATA.features.map(f => `
+  <div class="fl"><i>${esc(f.icon)}</i><div><h3>${esc(f.title)}</h3><p>${esc(f.text)}</p></div></div>`).join("");
+
+const tel = "tel:" + DATA.phone.replace(/[^\d+]/g, "");
+document.getElementById("phoneLink").href = document.getElementById("callBtn").href = tel;
+document.getElementById("waBtn").href = "https://wa.me/" + DATA.whatsapp;
+
+// Mobile menu: toggles aria-expanded, closes on link click, Escape, outside click or resize to desktop
+const menuBtn = document.querySelector(".menu-btn"), links = document.getElementById("links");
+function setMenu(open) {
+  links.classList.toggle("open", open);
+  menuBtn.setAttribute("aria-expanded", open);
+  menuBtn.setAttribute("aria-label", open ? "Close menu" : "Open menu");
+  if (open && window.gsap) gsap.from("#links a", { x: -20, opacity: 0, stagger: .05, duration: .35, ease: "power2.out" });
+}
+menuBtn.addEventListener("click", () => setMenu(!links.classList.contains("open")));
+links.addEventListener("click", e => { if (e.target.closest("a")) setMenu(false); });
+addEventListener("keydown", e => { if (e.key === "Escape" && links.classList.contains("open")) { setMenu(false); menuBtn.focus(); } });
+document.addEventListener("click", e => { if (!e.target.closest(".nav")) setMenu(false); });
+matchMedia("(min-width: 901px)").addEventListener("change", e => { if (e.matches) setMenu(false); });
+
+// Scroll-spy: highlight the nav link of the section currently in view
+const spy = new IntersectionObserver(entries => entries.forEach(en => {
+  if (!en.isIntersecting) return;
+  document.querySelectorAll(".links a:not(.btn)").forEach(a => {
+    const on = a.getAttribute("href") === "#" + en.target.id;
+    a.classList.toggle("is-active", on);
+    if (on) a.setAttribute("aria-current", "true"); else a.removeAttribute("aria-current");
+  });
+}), { rootMargin: "-45% 0px -50% 0px" });
+document.querySelectorAll("main section[id]").forEach(sec => spy.observe(sec));
+
+// Header shadow after scrolling
+const navEl = document.querySelector(".nav");
+addEventListener("scroll", () => navEl.classList.toggle("scrolled", scrollY > 10), { passive: true });
+
+// Fill image slots marked data-img="images.xxx"
+document.querySelectorAll("[data-img]").forEach(el => {
+  const u = get(DATA, el.dataset.img);
+  if (ok(u)) { el.classList.add("has-img"); el.innerHTML = `<img src="${esc(u)}" alt="" loading="lazy">`; }
+  else el.textContent = "[IMAGE]";
+});
+if (ok(DATA.images.hero)) {
+  const h = document.querySelector(".hero");
+  h.style.setProperty("--hero", `url("${DATA.images.hero.replace(/"/g, "%22")}")`);
+  h.classList.add("has-img");
+}
+
+// Contact form: validate, then post to formEndpoint if it is a real URL
+document.getElementById("form").addEventListener("submit", e => {
+  const f = e.target, msg = document.getElementById("msg");
+  const bad = [...f.querySelectorAll("[required]")].some(x => !x.value.trim() || (x.type === "email" && !/^\S+@\S+\.\S+$/.test(x.value)));
+  if (bad) { e.preventDefault(); msg.textContent = "Please fill in all fields with a valid email."; if (window.gsap) gsap.fromTo(f, { x: -8 }, { x: 0, duration: .6, ease: "elastic.out(1,.3)" }); return; }
+  if (!ok(DATA.formEndpoint)) {
+    // No form service configured: send the enquiry through WhatsApp instead
+    e.preventDefault();
+    const t = `Hello, I am ${f.name.value}. ${f.message.value} (Email: ${f.email.value})`;
+    window.open(`https://wa.me/${DATA.whatsapp}?text=${encodeURIComponent(t)}`, "_blank", "noopener");
+    return;
+  }
+  f.action = DATA.formEndpoint;
+});
+
+// ===== GSAP: animations across the whole site =====
+// Skipped if ANIMATE is false, GSAP failed to load, or the visitor prefers reduced motion.
+(function () {
+  const g = window.gsap, ST = window.ScrollTrigger;
+  if (!DATA.ANIMATE || !g || matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+  const fine = matchMedia("(hover: hover) and (pointer: fine)").matches;
+  if (ST) g.registerPlugin(ST);
+
+  // 1. Page-load sequence: nav, then hero text, then call badge
+  g.timeline({ defaults: { ease: "power3.out" } })
+    .from(".nav .logo, .links a, .nav .btn", { y: -20, opacity: 0, stagger: .06, duration: .6 })
+    .from(".hero .eb", { y: 20, opacity: 0, duration: .5 }, "-=.2")
+    .from(".hero h1 span, .hero h1 em", { y: 60, opacity: 0, stagger: .15, duration: .9 }, "-=.2")
+    .from(".hero .rule, .hero .btn, .hero .intro", { y: 30, opacity: 0, stagger: .12, duration: .7 }, "-=.5")
+    .from(".call", { y: 40, opacity: 0, duration: .7, ease: "back.out(1.6)" }, "-=.3");
+
+  // 2. Call badge pulse (draws attention to the phone number)
+  g.fromTo(".call", { boxShadow: "0 0 0 0 rgba(242,50,29,.55)" },
+    { boxShadow: "0 0 0 16px rgba(242,50,29,0)", duration: 1.6, repeat: -1, ease: "power1.out", delay: 2 });
+
+  // 3. Every button: hover sweep + arrow nudge, press feedback, magnetic pull on desktop
+  document.querySelectorAll(".btn, .intro").forEach(btn => {
+    const arrow = btn.querySelector("b, span");
+    let sweep = null;
+    if (btn.classList.contains("btn")) {
+      sweep = document.createElement("i");
+      sweep.className = "sweep";
+      btn.prepend(sweep);
+      g.set(sweep, { xPercent: -101 });
+    }
+    const xTo = fine ? g.quickTo(btn, "x", { duration: .4, ease: "power3" }) : null;
+    const yTo = fine ? g.quickTo(btn, "y", { duration: .4, ease: "power3" }) : null;
+    const over = () => {
+      g.to(btn, { scale: 1.04, duration: .25, ease: "power2.out", overwrite: "auto" });
+      if (arrow) g.to(arrow, { x: 3, duration: .25, ease: "power2.out" });
+      if (sweep) g.fromTo(sweep, { xPercent: -101 }, { xPercent: 0, duration: .45, ease: "power3.out" });
+    };
+    const out = () => {
+      g.to(btn, { scale: 1, duration: .35, ease: "power2.out", overwrite: "auto" });
+      if (arrow) g.to(arrow, { x: 0, duration: .25 });
+      if (sweep) g.to(sweep, { xPercent: 101, duration: .4, ease: "power3.in" });
+      if (xTo) { xTo(0); yTo(0); }
+    };
+    btn.addEventListener("pointerenter", over);
+    btn.addEventListener("pointerleave", out);
+    btn.addEventListener("focus", over);
+    btn.addEventListener("blur", out);
+    btn.addEventListener("pointerdown", () => g.to(btn, { scale: .95, duration: .1, overwrite: "auto" }));
+    btn.addEventListener("pointerup", () => g.to(btn, { scale: 1.04, duration: .35, ease: "back.out(3)", overwrite: "auto" }));
+    if (xTo) btn.addEventListener("pointermove", e => {
+      const r = btn.getBoundingClientRect();
+      xTo((e.clientX - r.left - r.width / 2) * .2);
+      yTo((e.clientY - r.top - r.height / 2) * .3);
+    });
+  });
+
+  // 4. Card hover lift (services, areas, features)
+  document.querySelectorAll(".card, .proj, .fl").forEach(el => {
+    el.addEventListener("mouseenter", () => g.to(el, { y: -6, boxShadow: "0 14px 30px rgba(0,0,0,.09)", duration: .3, overwrite: "auto" }));
+    el.addEventListener("mouseleave", () => g.to(el, { y: 0, boxShadow: "0 0 0 rgba(0,0,0,0)", duration: .3, overwrite: "auto" }));
+  });
+
+  // 5. FAQ: smooth open
+  document.querySelectorAll(".faq details").forEach(d => d.addEventListener("toggle", () => {
+    if (d.open) g.from(d.querySelector("p"), { height: 0, opacity: 0, duration: .35, ease: "power2.out", clearProps: "height" });
+  }));
+
+  if (!ST) return;
+
+  // 6. Scroll progress bar
+  g.to(".progress", { scaleX: 1, ease: "none", scrollTrigger: { start: 0, end: "max", scrub: .3 } });
+
+  // 7. Hero content drifts slightly as you scroll away
+  g.to(".hero .wrap", { y: 60, ease: "none", scrollTrigger: { trigger: ".hero", start: "top top", end: "bottom top", scrub: true } });
+
+  // 8. Section labels, headings, intro text and the form fade up
+  g.utils.toArray("main section:not(.hero) :is(.pill, h2, .rule), form.contact").forEach(el =>
+    g.from(el, { y: 30, opacity: 0, duration: .8, ease: "power3.out", scrollTrigger: { trigger: el, start: "top 90%", once: true } }));
+
+  // 9. Image slots wipe in
+  g.utils.toArray(".ph").forEach(el =>
+    g.from(el, { clipPath: "inset(0 0 100% 0)", duration: 1, ease: "power3.inOut", scrollTrigger: { trigger: el, start: "top 90%", once: true } }));
+
+  // 10. Cards, brands, features, FAQ rows, stats and the details box stagger in per group
+  const items = ".card, .proj, .fl, .bchip, .faq details, .stat, .box";
+  g.set(items, { opacity: 0, y: 40 });
+  ST.batch(items, {
+    start: "top 90%", once: true,
+    onEnter: b => g.to(b, { opacity: 1, y: 0, stagger: .1, duration: .7, ease: "power3.out", overwrite: "auto" })
+  });
+
+  // 11. Numbers count up when they come into view (e.g. 20+, 11+); text like 24/7 stays as is
+  document.querySelectorAll(".num").forEach(el => {
+    const m = el.textContent.match(/^(\d+)(\D*)$/);
+    if (!m) return;
+    const end = +m[1], tail = m[2], o = { v: 0 };
+    el.textContent = "0" + tail;
+    ST.create({ trigger: el, start: "top 92%", once: true,
+      onEnter: () => g.to(o, { v: end, duration: 1.6, ease: "power2.out", onUpdate: () => { el.textContent = Math.round(o.v) + tail; } }) });
+  });
+})();
+</script>
+</body>
+</html>
